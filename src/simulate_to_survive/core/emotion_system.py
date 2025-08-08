@@ -81,6 +81,23 @@ class EmotionSystem:
                 'timestamp': current_time
             })
     
+    def update_emotion_by_name(self, emotion_name: str, delta: int) -> None:
+        """Update emotion value by Chinese name"""
+        # Map Chinese names to EmotionType
+        emotion_map = {
+            "执念": EmotionType.OBSESSION,
+            "愤怒": EmotionType.ANGER,
+            "压抑": EmotionType.DEPRESSION,
+            "情感": EmotionType.AFFECTION,
+            "决心": EmotionType.DETERMINATION
+        }
+        
+        emotion_type = emotion_map.get(emotion_name)
+        if emotion_type:
+            self.update_emotion(emotion_type, delta)
+        else:
+            print(f"未知情感类型: {emotion_name}")
+    
     def set_emotion(self, emotion_type: EmotionType, value: int) -> None:
         """Set emotion value directly"""
         if emotion_type in self.emotions:

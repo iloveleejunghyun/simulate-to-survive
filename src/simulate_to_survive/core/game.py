@@ -156,6 +156,7 @@ class Game:
             "CH0_PHASE_02": "environment_gentle_rain",  # 细雨声
             "CH0_PHASE_03": "environment_gentle_rain",  # 细雨声
             "CH0_PHASE_04": "environment_heavy_rain",   # 暴雨声
+            "CH1_PHASE_01": "ui_system",                # 系统音效
         }
         
         ambient_id = ambient_map.get(scene_id)
@@ -253,6 +254,10 @@ class Game:
     def update_emotion(self, emotion_type: EmotionType, delta: int) -> None:
         """Update emotion value"""
         self.emotion_system.update_emotion(emotion_type, delta)
+    
+    def update_emotion_by_name(self, emotion_name: str, delta: int) -> None:
+        """Update emotion value by Chinese name"""
+        self.emotion_system.update_emotion_by_name(emotion_name, delta)
     
     def play_sound(self, sound_id: str, audio_type: AudioType, volume: float = 1.0) -> bool:
         """Play sound effect"""
