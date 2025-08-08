@@ -12,6 +12,7 @@ from .config import Config
 from .emotion_system import EmotionSystem, EmotionType
 from .audio_manager import AudioManager, AudioType
 from .scene_manager import SceneManager
+from .font_manager import font_manager
 
 
 class Game:
@@ -25,6 +26,9 @@ class Game:
         # Initialize pygame
         pygame.init()
         pygame.display.set_caption("Simulate to Survive")
+        
+        # Initialize font manager after pygame
+        font_manager.initialize()
         
         # Create display
         self.screen = pygame.display.set_mode(
@@ -249,7 +253,7 @@ class Game:
                            (x, y, bar_width, bar_height), 1)
             
             # Text
-            font = pygame.font.Font(None, 16)
+            font = font_manager.get_font(16)
             text = font.render(f"{emotion_name}: {value}", True, (255, 255, 255))
             self.screen.blit(text, (x + bar_width + 10, y + 2))
     
@@ -270,7 +274,7 @@ class Game:
     
     def _render_debug_info(self) -> None:
         """Render debug information"""
-        font = pygame.font.Font(None, 20)
+        font = font_manager.get_font(20)
         debug_info = [
             f"FPS: {self.clock.get_fps():.1f}",
             f"Scene: {self.current_scene}",

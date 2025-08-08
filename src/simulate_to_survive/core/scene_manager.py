@@ -10,6 +10,7 @@ from typing import Optional, Dict, Any, List
 from abc import ABC, abstractmethod
 
 from .config import Config
+from .font_manager import font_manager
 
 
 class Scene(ABC):
@@ -19,9 +20,10 @@ class Scene(ABC):
         self.config = config
         self.game = game
         self.screen = game.screen
-        self.font = pygame.font.Font(None, 32)
-        self.small_font = pygame.font.Font(None, 24)
-        self.large_font = pygame.font.Font(None, 48)
+        # 使用字体管理器
+        self.font = font_manager.get_normal_font()
+        self.small_font = font_manager.get_small_font()
+        self.large_font = font_manager.get_large_font()
         
         # Scene state
         self.is_active = False
@@ -242,7 +244,7 @@ class GameScene(Scene):
         
         # Render scene title
         if self.scene_data:
-            title_font = pygame.font.Font(None, 36)
+            title_font = font_manager.get_font(36)
             title_surface = title_font.render(self.scene_data.title, True, (255, 255, 255))
             title_rect = title_surface.get_rect(
                 center=(self.config.display.window_width // 2, 50)
@@ -272,7 +274,7 @@ class GameScene(Scene):
         # Render progress indicator
         if self.scene_data and self.scene_data.events:
             progress_text = f"事件 {self.current_event_index + 1} / {len(self.scene_data.events)}"
-            progress_font = pygame.font.Font(None, 20)
+            progress_font = font_manager.get_font(20)
             progress_surface = progress_font.render(progress_text, True, (150, 150, 150))
             progress_rect = progress_surface.get_rect(
                 bottomright=(self.config.display.window_width - 20, self.config.display.window_height - 20)
@@ -318,7 +320,7 @@ class GameScene(Scene):
         # Render instruction text
         if self.text_complete and self.current_event and self.current_event.choices:
             instruction_text = "点击选择或按数字键 1-3"
-            instruction_font = pygame.font.Font(None, 18)
+            instruction_font = font_manager.get_font(18)
             instruction_surface = instruction_font.render(instruction_text, True, (100, 100, 100))
             instruction_rect = instruction_surface.get_rect(
                 center=(self.config.display.window_width // 2, self.config.display.window_height - 50)
