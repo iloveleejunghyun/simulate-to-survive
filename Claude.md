@@ -48,13 +48,28 @@ python debug_audio.py
 #### 游戏内置截图功能
 游戏内置了强大的截图功能，支持多种截图模式：
 
+**Debug模式启动：**
+```bash
+# 启用debug模式，每2秒自动截图
+python src/simulate_to_survive/main.py --debug
+
+# 自定义截图间隔（秒）
+python src/simulate_to_survive/main.py --debug --screenshot-interval 1.0
+
+# 启用事件自动截图
+python src/simulate_to_survive/main.py --debug --auto-screenshot
+```
+
 **快捷键操作：**
 - `F2` - 手动截图
 - `F3` - 截图当前场景
 - `F4` - 延迟截图（1秒后）
 - `F1` - 显示调试信息
 
-**内置截图特点：**
+**Debug模式功能：**
+- ✅ 定时自动截图（默认每2秒）
+- ✅ 场景转换时自动截图
+- ✅ 选择事件时自动截图
 - ✅ 使用 pygame.image.save() 直接保存屏幕内容
 - ✅ 不依赖系统截图工具
 - ✅ 即使游戏窗口被遮挡也能截图

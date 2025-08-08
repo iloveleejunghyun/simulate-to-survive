@@ -71,11 +71,23 @@ class GameConfig:
 
 
 @dataclass
+class DebugConfig:
+    """Debug configuration settings"""
+    debug_mode: bool = False
+    screenshot_interval: float = 2.0  # 自动截图间隔（秒）
+    auto_screenshot: bool = True  # 是否启用事件自动截图
+    verbose_logging: bool = False  # 详细日志输出
+    show_fps: bool = False  # 显示FPS
+    show_emotion_values: bool = False  # 显示情感值
+
+
+@dataclass
 class Config:
     """Main configuration class"""
     audio: AudioConfig = field(default_factory=AudioConfig)
     display: DisplayConfig = field(default_factory=DisplayConfig)
     game: GameConfig = field(default_factory=GameConfig)
+    debug: DebugConfig = field(default_factory=DebugConfig)
     
     def __post_init__(self):
         """Initialize configuration after creation"""

@@ -41,6 +41,18 @@ class Game:
         self.current_scene = "main_menu"  # Start with main menu
         self.game_data = {}
         
+        # Debug mode initialization
+        self.debug_mode = config.debug.debug_mode
+        self.screenshot_interval = config.debug.screenshot_interval
+        self.auto_screenshot = config.debug.auto_screenshot
+        self.last_screenshot_time = 0
+        self.screenshot_counter = 0
+        
+        if self.debug_mode:
+            print(f"🔧 Debug模式已启用")
+            print(f"📸 自动截图间隔: {self.screenshot_interval}秒")
+            print(f"📸 事件自动截图: {'启用' if self.auto_screenshot else '禁用'}")
+        
         print("游戏初始化完成")
     
     def run(self) -> None:
@@ -61,6 +73,10 @@ class Game:
             
             # Render
             self._render()
+            
+            # Debug mode: automatic screenshots
+            if self.debug_mode:
+                self._handle_debug_screenshots()
             
             # Cap frame rate
             self.clock.tick(self.config.display.fps)
@@ -141,11 +157,30 @@ class Game:
         """Check if scene should transition"""
         next_scene = self.scene_manager.get_next_scene()
         if next_scene and next_scene != self.current_scene:
+            # Debug mode: screenshot before scene transition
+            if self.debug_mode and self.auto_screenshot:
+                self.auto_screenshot_on_event(f"scene_transition_{self.current_scene}_to_{next_scene}")
+            
             self._transition_to_scene(next_scene)
+    
+    def _handle_debug_screenshots(self) -> None:
+        """Handle automatic screenshots in debug mode"""
+        import time
+        current_time = time.time()
+        
+        # Check if it's time for a periodic screenshot
+        if current_time - self.last_screenshot_time >= self.screenshot_interval:
+            self.screenshot_counter += 1
+            self.take_screenshot(f"debug_auto_{self.screenshot_counter:03d}")
+            self.last_screenshot_time = current_time
     
     def _transition_to_scene(self, scene_id: str) -> None:
         """Transition to a new scene"""
         print(f"场景转换: {self.current_scene} -> {scene_id}")
+        
+        # Debug mode: screenshot after scene transition
+        if self.debug_mode and self.auto_screenshot:
+            self.auto_screenshot_on_event(f"scene_loaded_{scene_id}")
         
         # Save current scene state
         self.scene_manager.save_scene_state()
