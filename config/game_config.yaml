@@ -1,0 +1,36 @@
+audio:
+  ambient_volume: 0.7
+  audio_path: assets/audio
+  bit_depth: 16
+  channels: 2
+  master_volume: 1.0
+  music_path: assets/audio/music
+  music_volume: 0.8
+  sample_rate: 44100
+  sfx_path: assets/audio/sfx
+  sfx_volume: 0.9
+  voice_path: assets/audio/voice
+  voice_volume: 1.0
+display:
+  auto_advance: false
+  auto_advance_delay: 3.0
+  default_font: NotoSansSC-Regular.ttf
+  font_path: assets/fonts
+  font_size: 24
+  fps: 60
+  fullscreen: false
+  line_spacing: 1.2
+  text_speed: 1.0
+  vsync: true
+  window_height: 720
+  window_width: 1280
+game:
+  auto_save: true
+  auto_save_interval: 5
+  emotion_decay_rate: 0.1
+  language: zh_CN
+  max_emotion_value: 100
+  max_simulation_days: 1095
+  min_emotion_value: 0
+  save_path: saves
+  simulation_time_scale: 1.0

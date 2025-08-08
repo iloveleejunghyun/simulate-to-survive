@@ -1,0 +1,30 @@
+{
+  "current_scene": "CH0_PHASE_01",
+  "game_data": {},
+  "emotions": {
+    "emotions": {
+      "执念": {
+        "value": 0,
+        "last_update": 1754647152.621353
+      },
+      "愤怒": {
+        "value": 0,
+        "last_update": 1754647152.62137
+      },
+      "压抑": {
+        "value": 0,
+        "last_update": 1754647152.621372
+      },
+      "情感": {
+        "value": 0,
+        "last_update": 1754647152.621373
+      },
+      "决心": {
+        "value": 0,
+        "last_update": 1754647152.621374
+      }
+    },
+    "history": []
+  },
+  "scene_state": {}
+}

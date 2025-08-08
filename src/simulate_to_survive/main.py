@@ -33,7 +33,10 @@ def main():
         traceback.print_exc()
     finally:
         # Cleanup
-        pygame.quit()
+        try:
+            pygame.quit()
+        except:
+            pass
 
 
 if __name__ == "__main__":
