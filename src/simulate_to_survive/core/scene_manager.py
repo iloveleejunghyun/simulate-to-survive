@@ -388,6 +388,10 @@ class GameScene(Scene):
         choice = self.current_event.choices[choice_index]
         print(f"选择: {choice.text}")
         
+        # 延迟截图选择事件，确保渲染完成
+        if hasattr(self.game, 'delayed_screenshot'):
+            self.game.delayed_screenshot(f"choice_{self.scene_id}_{choice_index}", delay=0.5)
+        
         # Apply emotion effects
         if choice.emotion_effects:
             for emotion, value in choice.emotion_effects.items():
@@ -470,6 +474,10 @@ class SceneManager:
         self.current_scene.activate()
         
         print(f"Loaded scene: {scene_id}")
+        
+        # 延迟截图新场景，确保渲染完成
+        if hasattr(self.game, 'delayed_screenshot'):
+            self.game.delayed_screenshot(f"scene_{scene_id}", delay=1.0)
     
     def update(self):
         """Update current scene"""

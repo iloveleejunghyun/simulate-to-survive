@@ -38,7 +38,7 @@ class Game:
         self.scene_manager = SceneManager(config, self)
         
         # Game state
-        self.current_scene = "CH0_PHASE_01"  # Start with first phase of chapter 0
+        self.current_scene = "main_menu"  # Start with main menu
         self.game_data = {}
         
         print("游戏初始化完成")
@@ -90,6 +90,16 @@ class Game:
             self._toggle_fullscreen()
         elif event.key == pygame.K_F1:
             self._show_debug_info()
+        elif event.key == pygame.K_F2:
+            # F2键手动截图
+            self.take_screenshot("manual_screenshot")
+        elif event.key == pygame.K_F3:
+            # F3键截图当前场景
+            if hasattr(self, 'current_scene'):
+                self.take_screenshot(f"scene_{self.current_scene}")
+        elif event.key == pygame.K_F4:
+            # F4键延迟截图测试
+            self.delayed_screenshot("manual_delayed", delay=1.0)
     
     def _handle_mouse_click(self, event) -> None:
         """Handle mouse click events"""
@@ -250,6 +260,63 @@ class Game:
             self.debug_mode = False
         self.debug_mode = not self.debug_mode
         print(f"Debug mode: {'ON' if self.debug_mode else 'OFF'}")
+    
+    def take_screenshot(self, name="game_screenshot"):
+        """游戏内置截图功能"""
+        try:
+            import pygame.image
+            from pathlib import Path
+            from datetime import datetime
+            
+            # 创建截图目录
+            screenshot_dir = Path("debug_screenshots")
+            screenshot_dir.mkdir(exist_ok=True)
+            
+            # 生成文件名
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{name}_{timestamp}.png"
+            filepath = screenshot_dir / filename
+            
+            # 确保屏幕已经渲染
+            pygame.display.flip()
+            
+            # 保存当前屏幕内容
+            pygame.image.save(self.screen, str(filepath))
+            
+            print(f"📸 游戏截图保存: {filename}")
+            print(f"📁 路径: {filepath.absolute()}")
+            return filepath
+            
+        except Exception as e:
+            print(f"❌ 游戏截图失败: {e}")
+            return None
+    
+    def auto_screenshot_on_event(self, event_name):
+        """在特定事件时自动截图"""
+        try:
+            # 延迟一小段时间确保渲染完成
+            import time
+            time.sleep(0.1)
+            
+            screenshot_path = self.take_screenshot(f"event_{event_name}")
+            if screenshot_path:
+                print(f"📸 事件截图: {event_name}")
+            return screenshot_path
+        except Exception as e:
+            print(f"❌ 事件截图失败: {e}")
+            return None
+    
+    def delayed_screenshot(self, name="delayed_screenshot", delay=0.5):
+        """延迟截图，确保渲染完成"""
+        def _delayed_screenshot():
+            import time
+            time.sleep(delay)
+            self.take_screenshot(name)
+        
+        import threading
+        thread = threading.Thread(target=_delayed_screenshot)
+        thread.daemon = True
+        thread.start()
     
     def update_emotion(self, emotion_type: EmotionType, delta: int) -> None:
         """Update emotion value"""
