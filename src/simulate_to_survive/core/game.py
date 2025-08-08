@@ -47,11 +47,8 @@ class Game:
         """Main game loop"""
         self.running = True
         
-        # Load initial scene
+        # Load initial scene (this will also set up ambient sound)
         self.scene_manager.load_scene(self.current_scene)
-        
-        # Start ambient sound
-        self.audio_manager.play_ambient("environment_gentle_rain", fade_in=2000)
         
         print("开始游戏循环")
         

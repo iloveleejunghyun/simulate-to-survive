@@ -136,7 +136,7 @@ class MainMenuScene(Scene):
     def on_activate(self):
         self.set_text("模拟生存 - Simulate to Survive")
         # Start background music
-        self.game.audio_manager.play_music("main_theme", loop=True)
+        self.game.audio_manager.play_music("background_main_theme", loop=True)
     
     def on_deactivate(self):
         self.game.audio_manager.stop_music()

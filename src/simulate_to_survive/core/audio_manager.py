@@ -129,8 +129,16 @@ class AudioManager:
         # Load music files
         music_path = audio_path / "music"
         if music_path.exists():
+            # Load from main music directory
             for audio_file in music_path.glob("*.wav"):
                 self._load_sound(audio_file, f"music_{audio_file.stem}")
+            
+            # Load from subdirectories (background, ambient, etc.)
+            for subdir in music_path.iterdir():
+                if subdir.is_dir():
+                    for audio_file in subdir.glob("*.wav"):
+                        # Use subdirectory name as prefix
+                        self._load_sound(audio_file, f"{subdir.name}_{audio_file.stem}")
         
         # Load voice files
         voice_path = audio_path / "voice"
